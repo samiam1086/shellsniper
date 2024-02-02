@@ -20,6 +20,7 @@ def proc_watch(stop_attack):
         '/dev/tcp/{}/{}'.format(ipv4_regex, port_regex): 'TCP Reverse Shell',
         '/dev/udp/{}/{}'.format(ipv4_regex, port_regex): 'UDP Reverse Shell',
         '/inet/tcp/0/{}/{}'.format(ipv4_regex, port_regex): 'inet Reverse Shell',
+        '/inet/udp/0/{}/{}'.format(ipv4_regex, port_regex): 'inet Reverse Shell',
         'nc {} {}'.format(ipv4_regex, port_regex): 'nc Reverse Shell',
         'nc {} {} {}'.format(shell_regex, ipv4_regex, port_regex): 'nc Reverse Shell',
         'nc {} {} {} {}'.format(shell_regex, shell_regex, ipv4_regex, port_regex): 'nc Reverse Shell',
