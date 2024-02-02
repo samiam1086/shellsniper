@@ -32,13 +32,13 @@ def conn_guard(stop_attack, block_offenders):
                     split_item6 = item[6].split('/')
                     if split_item6[1] in shell_list: # if the program running that connection is sus
                         if block_offenders and stop_attack:
-                            os.system('sudo kill -9 {}'.format(split_item6[0])) # kill the process
+                            os.system('sudo kill -9 {} 2>/dev/null'.format(split_item6[0])) # kill the process
                             os.system('sudo iptables -A INPUT -s {} -j DROP'.format(item[4].split(':')[0])) # ban their ip
                             print('{}: There is a remote connection with shell {} on PID {} to remote host {}. Terminating PID {}.. Blocking IP {}'.format(make_blue('Conn-Guard'), make_red(split_item6[1]), make_red(split_item6[0]), make_red(item[4].split(':')[0]), make_red(split_item6[0]), make_red(item[4].split(':')[0])))
                             print('To unblock the host run sudo iptables -D INPUT -s {} -j DROP'.format(item[4].split(':')[0]))
                             continue
                         elif stop_attack:
-                            os.system('sudo kill -9 {}'.format(split_item6[0]))
+                            os.system('sudo kill -9 {} 2>/dev/null'.format(split_item6[0]))
                             print('{}: There is a remote connection with shell {} on PID {} to remote host {}. Terminating PID {}'.format(make_blue('Conn-Guard'), make_red(split_item6[1]), make_red(split_item6[0]), make_red(item[4].split(':')[0]), make_red(split_item6[0])))
                             continue
                         else:
@@ -51,13 +51,13 @@ def conn_guard(stop_attack, block_offenders):
                     if item[4].split(':')[1] in suspicious_remote_ports:
                         split_item6 = item[6].split('/')
                         if block_offenders and stop_attack:
-                            os.system('sudo kill -9 {}'.format(split_item6[0]))  # kill the process
+                            os.system('sudo kill -9 {} 2>/dev/null'.format(split_item6[0]))  # kill the process
                             os.system('sudo iptables -A INPUT -s {} -j DROP'.format(item[4].split(':')[0]))  # ban their ip
                             print('Conn-Guard: There is a remote connection with PID {} to remote host {} on a suspicious port. Terminating PID {}.. Blocking IP {}'.format(make_red(split_item6[0]), make_red(item[4]), make_red(split_item6[0]), make_red(item[4].split(':')[0])))
                             print('To unblock the host run sudo iptables -D INPUT -s {} -j DROP'.format(item[4].split(':')[0]))
                             continue
                         elif stop_attack:
-                            os.system('sudo kill -9 {}'.format(split_item6[0]))
+                            os.system('sudo kill -9 {} 2>/dev/null'.format(split_item6[0]))
                             print('Conn-Guard: There is a remote connection with PID {} to remote host {} on a suspicious port Terminating PID {}'.format(make_red(split_item6[0]), make_red(item[4]), make_red(split_item6[0])))
                             continue
                         else:
