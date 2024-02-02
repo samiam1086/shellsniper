@@ -45,17 +45,18 @@ if __name__ == '__main__':
         if config['run-ssh-guard'] :
             ssh_guard_thread = threading.Thread(target=limit_ssh, args=(config['ssh-guard-blockoffenders'], whitelisted_users, whitelisted_ips, ))
             thread_list.append(ssh_guard_thread)
-    
+
         if config['run-proc-watch']:
             proc_watch_thread = threading.Thread(target=proc_watch, args=(config['proc-watch-stopattack'],))
             thread_list.append(proc_watch_thread)
-    
+
         if config['run-conn-guard']:
             conn_guard_thread = threading.Thread(target=conn_guard, args=(config['conn-guard-stopattack'], config['conn-guard-blockoffenders'],))
             thread_list.append(conn_guard_thread)
-    
+
         for thread in thread_list:
             thread.start()
     except KeyError as e:
         print(str(e))
         print("Error you are likely missing an item from the config")
+        sys.exit(1)
