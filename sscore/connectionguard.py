@@ -8,6 +8,11 @@ def make_red(indata):
     color_reset = '\033[0m'
     return '{}{}{}'.format(color_RED, indata, color_reset)
 
+def make_blue(indata):
+    color_BLU = '\033[94m'
+    color_reset = '\033[0m'
+    return '{}{}{}'.format(color_BLU, indata, color_reset)
+
 def conn_guard(stop_attack, block_offenders):
     print('Starting conn_guard stop_attack:{} block_offenders:{}'.format(stop_attack, block_offenders))
     shell_list = ['sh', '/bin/sh', 'bash', '/bin/bash', 'cmd', 'powershell', 'pwsh', 'ash', 'bsh', 'csh', 'ksh', 'zsh', 'pdksh', 'tcsh', 'mksh', 'dash', 'telnet', 'nc', 'netcat']
@@ -29,16 +34,16 @@ def conn_guard(stop_attack, block_offenders):
                         if block_offenders and stop_attack:
                             os.system('sudo kill -9 {}'.format(split_item6[0])) # kill the process
                             os.system('sudo iptables -A INPUT -s {} -j DROP'.format(item[4].split(':')[0])) # ban their ip
-                            print('Conn-Guard: There is a remote connection with shell {} on PID {} to remote host {}. Terminating PID {}.. Blocking IP {}'.format(make_red(split_item6[1]), make_red(split_item6[0]), make_red(item[4].split(':')[0]), make_red(split_item6[0]), make_red(item[4].split(':')[0])))
+                            print('{}: There is a remote connection with shell {} on PID {} to remote host {}. Terminating PID {}.. Blocking IP {}'.format(make_blue('Conn-Guard'), make_red(split_item6[1]), make_red(split_item6[0]), make_red(item[4].split(':')[0]), make_red(split_item6[0]), make_red(item[4].split(':')[0])))
                             print('To unblock the host run sudo iptables -D INPUT -s {} -j DROP'.format(item[4].split(':')[0]))
                             continue
                         elif stop_attack:
                             os.system('sudo kill -9 {}'.format(split_item6[0]))
-                            print('Conn-Guard: There is a remote connection with shell {} on PID {} to remote host {}. Terminating PID {}'.format(make_red(split_item6[1]), make_red(split_item6[0]), make_red(item[4].split(':')[0]), make_red(split_item6[0])))
+                            print('{}: There is a remote connection with shell {} on PID {} to remote host {}. Terminating PID {}'.format(make_blue('Conn-Guard'), make_red(split_item6[1]), make_red(split_item6[0]), make_red(item[4].split(':')[0]), make_red(split_item6[0])))
                             continue
                         else:
                             if split_item6[0] not in reported_pids:
-                                print('Conn-Guard: There is a remote connection with shell {} on PID {} to remote host {}'.format(make_red(split_item6[1]), make_red(split_item6[0]), make_red(item[4].split(':')[0])))
+                                print('{}: There is a remote connection with shell {} on PID {} to remote host {}'.format(make_blue('Conn-Guard'), make_red(split_item6[1]), make_red(split_item6[0]), make_red(item[4].split(':')[0])))
                                 reported_pids.append(split_item6[0])
                                 continue
 
