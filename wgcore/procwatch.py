@@ -39,21 +39,22 @@ def proc_watch(stop_attack):
     rsd_keys = reverse_shells_dict.keys()
     while True:
         # USER         PID %CPU %MEM    VSZ   RSS TTY      STAT START   TIME COMMAND
-        dat = subprocess.getoutput('sudo ps -aux | grep -v \'?\'')
+        dat = subprocess.getoutput('sudo ps -aux')
         dat = dat.split('\n')
 
         for item in dat[1:]: # skips the first item in dat
-            item = ' '.join(item.split())  # go from multiple whitespaces to one
-            item = item.split(' ')  # from string to list removing whitespace
+            item = ' '.join(item.split())  # go from multiple whitespaces to one from 'this      that    there' to 'this that there'
+            item = item.split(' ')  # from string to list removing whitespace from 'this that there' to ['this', 'that', 'there']
             if item != '': # ensure that the item is not blank
-                command = ' '.join(item[10:]) # gets the command into a single string
-                for regex in rsd_keys: # iterate through each regex
-                    if re.search(regex, command): # see if theres a match
-                        if stop_attack: # if we are in ips mode
-                            os.system('sudo kill -9 {}'.format(item[1])) # kill the process
-                            print('Proc-Watch: Process {} was found to match {} with command {} Terminating process'.format(make_red(item[1]), make_red(reverse_shells_dict[regex]), make_red(command)))
-                        else:
-                            if item[1] not in reported_pids:
-                                print('Proc-Watch: Process {} was found to match {} with command {}'.format(make_red(item[1]), make_red(reverse_shells_dict[regex]), make_red(command)))
-                                reported_pids.append(item[1])
-                        break
+                if item[6] != '?': # check to ensure that we are not wasting time with system processes and you cannot do this in the subprocesses command since grep -v '?' would allow for a question mark to be added to a reverse sheel to bypass this module
+                    command = ' '.join(item[10:]) # gets the command into a single string
+                    for regex in rsd_keys: # iterate through each regex
+                        if re.search(regex, command): # see if theres a match
+                            if stop_attack: # if we are in ips mode
+                                os.system('sudo kill -9 {}'.format(item[1])) # kill the process
+                                print('Proc-Watch: Process {} was found to match {} with command {} Terminating process'.format(make_red(item[1]), make_red(reverse_shells_dict[regex]), make_red(command)))
+                            else:
+                                if item[1] not in reported_pids:
+                                    print('Proc-Watch: Process {} was found to match {} with command {}'.format(make_red(item[1]), make_red(reverse_shells_dict[regex]), make_red(command)))
+                                    reported_pids.append(item[1])
+                            break
