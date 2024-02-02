@@ -50,7 +50,7 @@ def limit_ssh(block_offenders, whitelisted_users, whitelisted_ips):
                 item = item.split(' ') # from string to list removing whitespace
 
                 if item[0] not in whitelisted_users: # item[0] will be the username
-                    os.system('sudo killall -u {}'.format(item[0]))
+                    os.system('sudo killall -u {} 2>/dev/null'.format(item[0]))
                     print('{}: Non-Whitelisted account {} connected from {} and their connection was terminated'.format(make_blue('SSH-Guard'), make_red(item[0]), make_red(item[2])))
                     if block_offenders:
                         os.system('sudo iptables -A INPUT -s {} -j DROP'.format(item[2]))
@@ -64,7 +64,7 @@ def limit_ssh(block_offenders, whitelisted_users, whitelisted_ips):
                     if dat1 != '':
                         dat1 = ' '.join(dat1.split()) # go from multiple whitespaces to one
                         dat1 = dat1.split(' ') # from string to list removing whitespace
-                        os.system('sudo kill -9 {}'.format(dat1[1])) # dat1[1] is the pid
+                        os.system('sudo kill -9 {} 2>/dev/null'.format(dat1[1])) # dat1[1] is the pid
                         print('{}: Non-Whitelisted IP {} was found using account {} on PID {} was terminated'.format(make_blue('SSH-Guard'), make_red(item[2]), make_red(dat1[0]), make_red(dat1[1])))
                         if block_offenders:
                             print('{}: Blocking IP address {} to unblock the IP run: sudo iptables -D INPUT -s {} -j DROP'.format(make_blue('SSH-Guard'), make_red(item[2]), item[2])) # block the ip through iptables
