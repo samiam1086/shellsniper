@@ -57,7 +57,7 @@ def proc_watch(stop_attack):
                     for regex in rsd_keys: # iterate through each regex
                         if re.search(regex, command): # see if theres a match
                             if stop_attack: # if we are in ips mode
-                                os.system('sudo kill -9 {}'.format(item[1])) # kill the process
+                                os.system('sudo kill -9 {} 2>/dev/null'.format(item[1])) # kill the process
                                 print('{}: Process {} was found to match {} with command {} Terminating process'.format(make_blue('Proc-Watch'), make_red(item[1]), make_red(reverse_shells_dict[regex]), make_red(command)))
                             else:
                                 if item[1] not in reported_pids:
