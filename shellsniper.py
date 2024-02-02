@@ -37,6 +37,9 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(add_help=True, description='')
     parser.add_argument('-wu', action='store', required=True, help='Users to whitelist for ssh seperated by commas ex: kali,root')
     parser.add_argument('-wi', action='store', help='IPs to whitelist for ssh seperated by commas ex: 10.10.10.1,10.10.20.1')
+
+    print('\n( -_•)▄︻デ══━一\t\tnetcat\n')
+
     config = parse_config()
 
     if len(sys.argv) == 1:
