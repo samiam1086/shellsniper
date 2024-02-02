@@ -9,6 +9,11 @@ def make_red(indata):
     color_reset = '\033[0m'
     return '{}{}{}'.format(color_RED, indata, color_reset)
 
+def make_blue(indata):
+    color_BLU = '\033[94m'
+    color_reset = '\033[0m'
+    return '{}{}{}'.format(color_BLU, indata, color_reset)
+
 def proc_watch(stop_attack):
     print('Starting proc_watch stop_attack:{}'.format(stop_attack))
     ipv4_regex = r'((25[0-5]|(2[0-4]|1\d|[1-9]|)\d)\.?\b){4}'
@@ -53,9 +58,9 @@ def proc_watch(stop_attack):
                         if re.search(regex, command): # see if theres a match
                             if stop_attack: # if we are in ips mode
                                 os.system('sudo kill -9 {}'.format(item[1])) # kill the process
-                                print('Proc-Watch: Process {} was found to match {} with command {} Terminating process'.format(make_red(item[1]), make_red(reverse_shells_dict[regex]), make_red(command)))
+                                print('{}: Process {} was found to match {} with command {} Terminating process'.format(make_blue('Proc-Watch'), make_red(item[1]), make_red(reverse_shells_dict[regex]), make_red(command)))
                             else:
                                 if item[1] not in reported_pids:
-                                    print('Proc-Watch: Process {} was found to match {} with command {}'.format(make_red(item[1]), make_red(reverse_shells_dict[regex]), make_red(command)))
+                                    print('{}: Process {} was found to match {} with command {}'.format(make_blue('Proc-Watch'), make_red(item[1]), make_red(reverse_shells_dict[regex]), make_red(command)))
                                     reported_pids.append(item[1])
                             break
