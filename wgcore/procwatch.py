@@ -15,8 +15,8 @@ def proc_watch(stop_attack):
     port_regex = '[0-9]*'
     shell_regex = r'\S*'
     reverse_shells_dict = {
-        'Socket': 'Socket Connection',
-        'socket': 'Socket Connection',
+        'Socket': 'Socket Connection (Likely a Reverse Shell)',
+        'socket': 'Socket Connection (Likely a Reverse Shell)',
         '/dev/tcp/{}/{}'.format(ipv4_regex, port_regex): 'TCP Reverse Shell',
         '/dev/udp/{}/{}'.format(ipv4_regex, port_regex): 'UDP Reverse Shell',
         '/inet/tcp/0/{}/{}'.format(ipv4_regex, port_regex): 'inet Reverse Shell',
